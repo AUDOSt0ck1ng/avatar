@@ -5,7 +5,11 @@ import {
   labelAudioCaptureStatus,
 } from '../../lib/audioCaptureCopy';
 import { getDesktopApi } from '../../lib/desktopMode';
-import { PanelSelect } from '../ui/PanelPrimitives';
+import {
+  defaultLipSyncMouthStrength,
+  defaultLipSyncSensitivity,
+} from '../../config/lipSyncSensitivity';
+import { PanelSelect, SliderRow } from '../ui/PanelPrimitives';
 
 export function VoicePanel({
   audioSourceId,
@@ -16,6 +20,10 @@ export function VoicePanel({
   audioStatus,
   audioError,
   onRestartAudio,
+  lipSyncSensitivity,
+  onLipSyncSensitivityChange,
+  lipSyncMouthStrength,
+  onLipSyncMouthStrengthChange,
 }) {
   const [windowSources, setWindowSources] = useState([]);
   const audioSourceOptions = getAudioSourceOptions();
@@ -62,6 +70,35 @@ export function VoicePanel({
       <p className="panel-hint">
         {audioSourceOptions.find((option) => option.id === audioSourceId)?.description}
       </p>
+
+      {audioSourceId !== 'none' && (
+        <>
+          <SliderRow
+            label="Sensitivity"
+            min={0.25}
+            max={4}
+            step={0.25}
+            value={lipSyncSensitivity}
+            onChange={onLipSyncSensitivityChange}
+            onDoubleClick={() => onLipSyncSensitivityChange(defaultLipSyncSensitivity)}
+          />
+          <p className="panel-hint">
+            Raise this when audio is detected but the mouth barely moves. Double-click to reset.
+          </p>
+          <SliderRow
+            label="Mouth limit"
+            min={0.1}
+            max={1}
+            step={0.05}
+            value={lipSyncMouthStrength}
+            onChange={onLipSyncMouthStrengthChange}
+            onDoubleClick={() => onLipSyncMouthStrengthChange(defaultLipSyncMouthStrength)}
+          />
+          <p className="panel-hint">
+            Limits the maximum VRM mouth-expression weight. Double-click to reset.
+          </p>
+        </>
+      )}
 
       {audioSourceId === 'window' && (
         <>

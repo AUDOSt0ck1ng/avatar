@@ -28,11 +28,17 @@ This is the full reference for every lip-sync input. Mouth shapes themselves are
 
 ### Permissions / troubleshooting
 
+- **Sensitivity** scales the measured level for every non-Off source. Raise it when the live dot reacts but the mouth barely moves; lower it when background noise moves the mouth. Double-click the slider to reset to `1.00`.
+- **Mouth limit** caps the maximum VRM mouth-expression weight (`0.10`–`1.00`) without changing audio detection.
 - First capture may prompt for **microphone** or **screen/audio** permission depending on the OS and source. That is expected for Device output, Pick app window, Microphone, and browser Tab capture.
 - Status in Gear → **Voice** is written in plain language (`Starting capture…`, `Capturing (local)`, `Pick a window…`, …). Older builds showed raw tokens such as `starting` / `error`.
 - If capture is denied, the panel explains that **permission was refused**, suggests **Restart audio capture**, and on desktop can open **system privacy settings** (Windows: Settings → Privacy & security → Microphone; also check Screen and voice recording if your OS lists it).
 - If status sticks on an error after you allow access, click **Restart audio capture**, or switch source Off and back.
 - `Pick a window…` / `Pick an audio file…` means finish choosing a target — not a failure.
+
+<p align="center">
+  <img src="../screenshots/55-voice-lip-sync-controls.png" alt="Voice panel sensitivity and mouth limit controls" height="360" />
+</p>
 
 ### Privacy (what stays local)
 
@@ -66,6 +72,6 @@ When the source is not **Off**, a status-aware **live dot** sits on the glass ba
 
 ## Persistence
 
-`audioSourceId` (and `windowSourceId` when relevant) are stored in `config.yaml`.  
+`audioSourceId`, `lipSyncSensitivity`, `lipSyncMouthStrength` (and `windowSourceId` when relevant) are stored in `config.yaml`.
 Uploaded files are **not** restored after quit — pick the file again.  
 [User settings](../user-settings.md).

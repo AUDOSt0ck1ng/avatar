@@ -27,6 +27,7 @@ export function VrmAvatar({
   avatarRotation,
   audioLevel = 0,
   lipSyncEnabled = false,
+  lipSyncMouthStrength = 1,
   speaking = false,
   onLoaded,
 }) {
@@ -41,7 +42,7 @@ export function VrmAvatar({
   const overlayToken = motionOverlay?.token ?? 0;
 
   const { play, playSequence, cancel, returnToRest, update: updateMixer } = useVrmAnimation(vrm);
-  const updateLipSync = useAmplitudeLipSync(vrm);
+  const updateLipSync = useAmplitudeLipSync(vrm, lipSyncMouthStrength);
   const updateBlink = useBlink(vrm);
 
   useEffect(() => {

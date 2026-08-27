@@ -7,6 +7,10 @@ import {
 } from '../config/animations';
 import { getAudioSourceOptions, getDefaultAudioSourceId } from '../config/audioSources';
 import {
+  defaultLipSyncMouthStrength,
+  defaultLipSyncSensitivity,
+} from '../config/lipSyncSensitivity';
+import {
   customEnvironments,
   defaultColor,
   environments,
@@ -90,6 +94,8 @@ export function AvatarStage() {
   const [audioFile, setAudioFile] = useState(null);
   const [windowSourceId, setWindowSourceId] = useState(null);
   const [audioSourceId, setAudioSourceId] = useState(getDefaultAudioSourceId);
+  const [lipSyncSensitivity, setLipSyncSensitivity] = useState(defaultLipSyncSensitivity);
+  const [lipSyncMouthStrength, setLipSyncMouthStrength] = useState(defaultLipSyncMouthStrength);
   const [settingsPath, setSettingsPath] = useState(null);
   // Session-only: a VRoid Hub character is never persisted to config.yaml
   // (kept in memory only, per VRoid Hub's licensing rules for linked-app
@@ -126,7 +132,7 @@ export function AvatarStage() {
   const { level, levelRef, speaking, status: audioStatus, error: audioError, restart } = useAudioSource(
     audioSourceId,
     audioFile,
-    { windowSourceId },
+    { windowSourceId, sensitivity: lipSyncSensitivity },
   );
 
   const lipSyncEnabled = audioSourceId !== 'none' && audioStatus === 'active';
@@ -156,6 +162,8 @@ export function AvatarStage() {
       rotation: [...settings.avatarTransform.rotation],
     });
     setAudioSourceId(settings.audioSourceId);
+    setLipSyncSensitivity(settings.lipSyncSensitivity);
+    setLipSyncMouthStrength(settings.lipSyncMouthStrength);
     setWindowSourceId(settings.windowSourceId);
     setOverlayMode(settings.overlayMode);
     document.documentElement.classList.toggle('vox-desktop-windowed', !settings.overlayMode);
@@ -241,6 +249,8 @@ export function AvatarStage() {
         light,
         avatarTransform: avatar,
         audioSourceId,
+        lipSyncSensitivity,
+        lipSyncMouthStrength,
         windowSourceId,
         overlayMode,
         windowScale,
@@ -262,6 +272,8 @@ export function AvatarStage() {
     light,
     avatar,
     audioSourceId,
+    lipSyncSensitivity,
+    lipSyncMouthStrength,
     windowSourceId,
     overlayMode,
     windowScale,
@@ -1022,6 +1034,7 @@ export function AvatarStage() {
               avatarRotation={avatar.rotation}
               audioLevel={level}
               lipSyncEnabled={lipSyncEnabled}
+              lipSyncMouthStrength={lipSyncMouthStrength}
               speaking={speaking}
               onLoaded={handleAvatarLoaded}
             />
@@ -1067,6 +1080,10 @@ export function AvatarStage() {
               audioStatus={audioStatus}
               audioError={audioError}
               onRestartAudio={() => void restart()}
+              lipSyncSensitivity={lipSyncSensitivity}
+              onLipSyncSensitivityChange={setLipSyncSensitivity}
+              lipSyncMouthStrength={lipSyncMouthStrength}
+              onLipSyncMouthStrengthChange={setLipSyncMouthStrength}
             />
           )}
 

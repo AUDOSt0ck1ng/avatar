@@ -8,7 +8,7 @@ const VISEMES = ['aa', 'ee', 'ih', 'oh', 'ou'];
  *
  * @param {import('@pixiv/three-vrm').VRM | null} vrm
  */
-export function useAmplitudeLipSync(vrm) {
+export function useAmplitudeLipSync(vrm, mouthStrength = 1) {
   const smoothed = useRef(0);
   const phase = useRef(0);
 
@@ -27,10 +27,13 @@ export function useAmplitudeLipSync(vrm) {
       for (let index = 0; index < VISEMES.length; index += 1) {
         const shape = Math.max(0, 1 - Math.abs(index - active) * 0.72);
         const flutter = 0.74 + Math.sin(phase.current * 5.7 + index) * 0.18;
-        manager.setValue(VISEMES[index], Math.min(0.62, smoothed.current * shape * flutter));
+        manager.setValue(
+          VISEMES[index],
+          Math.min(mouthStrength, smoothed.current * shape * flutter),
+        );
       }
     },
-    [vrm],
+    [mouthStrength, vrm],
   );
 }
 

@@ -6,7 +6,7 @@
 # Run: cd avatar && npm test  (includes manifest path validation)
 
 schema_version: 1
-last_audited: "2026-08-19"
+last_audited: "2026-08-27"
 
 # --- Scope legend (field: scope) ---
 # ships_in_app     — bundled into production Vite/Electron builds (NSIS installer)
@@ -434,6 +434,13 @@ assets:
     scope: documentation
     type: png
     audit_status: arpa_owned
+
+  - id: docs-screenshot-55-voice-lip-sync-controls
+    path: docs/screenshots/55-voice-lip-sync-controls.png
+    scope: documentation
+    type: png
+    audit_status: arpa_owned
+    notes: UI capture of the Voice sensitivity and mouth-limit controls.
 
   - id: docs-screenshot-70-vroid-settings-setup
     path: docs/screenshots/70-vroid-settings-setup.png

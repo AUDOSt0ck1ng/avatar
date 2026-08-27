@@ -199,10 +199,17 @@ Gear → **Voice**.
 
 ### Tips
 
+- Raise **Sensitivity** when the live dot reacts but the mouth barely moves; lower it when background noise triggers the mouth. Its `1.00` default preserves the original analyser response.
+- **Mouth limit** caps the strongest VRM mouth expression from `0.10` to the full `1.00`. It does not change whether audio is detected.
+- Double-click either slider to restore `1.00`. Both values persist in `config.yaml`.
 - Status shows a short plain-language line (for example **Capturing (local)** or **Pick a window…**), not raw codes.
 - A privacy note in the panel states that lip sync analyses levels **locally** — nothing is uploaded.
 - Use **Restart audio capture** if OS permissions or devices change; on permission denial, desktop builds can open system privacy settings.
 - Mouth shapes are **amplitude-based** (not phoneme ASR). See [Lip sync](voice/lip-sync.md) and [Audio sources](voice/audio-sources.md) (permissions + privacy).
+
+<p align="center">
+  <img src="screenshots/55-voice-lip-sync-controls.png" alt="Voice panel sensitivity and mouth limit controls" height="360" />
+</p>
 
 <p align="center">
   <img src="screenshots/50-voice-panel.png" alt="Voice panel" height="200" />
