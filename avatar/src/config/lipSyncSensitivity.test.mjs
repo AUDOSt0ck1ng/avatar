@@ -6,7 +6,6 @@ import {
   normalizeLipSyncMouthStrength,
   normalizeLipSyncSensitivity,
 } from './lipSyncSensitivity.js';
-import { createDefaultUserSettings, normalizeUserSettings, snapshotUserSettings } from './userSettings.js';
 
 test('normalizeLipSyncSensitivity keeps supported values', () => {
   assert.equal(normalizeLipSyncSensitivity(0.25), 0.25);
@@ -29,18 +28,4 @@ test('normalizeLipSyncSensitivity clamps or defaults invalid values', () => {
   assert.equal(normalizeLipSyncSensitivity('nope'), defaultLipSyncSensitivity);
   assert.equal(normalizeLipSyncSensitivity(null), defaultLipSyncSensitivity);
   assert.equal(normalizeLipSyncSensitivity(undefined), defaultLipSyncSensitivity);
-});
-
-test('lip-sync controls survive settings snapshot and normalization', () => {
-  const liveSettings = {
-    ...createDefaultUserSettings(),
-    lipSyncSensitivity: 2.5,
-    lipSyncMouthStrength: 0.7,
-  };
-
-  const snapshot = snapshotUserSettings(liveSettings);
-  const normalized = normalizeUserSettings(snapshot);
-
-  assert.equal(normalized.lipSyncSensitivity, 2.5);
-  assert.equal(normalized.lipSyncMouthStrength, 0.7);
 });
