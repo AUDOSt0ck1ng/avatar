@@ -18,11 +18,24 @@ export function Divider() {
   return <div className="panel-divider" />;
 }
 
-export function SliderRow({ label, min, max, step, value, onChange, onDoubleClick }) {
-  return (
-    <div className="slider-row">
-      <span className="slider-row__label">{label}</span>
+export function SliderRow({
+  label,
+  id,
+  min,
+  max,
+  step,
+  value,
+  onChange,
+  onDoubleClick,
+  /** Stacked: field-label above, slider+value below (Voice / form fields). Default is inline (Camera). */
+  stacked = false,
+}) {
+  const inputId = id ?? undefined;
+  const control = (
+    <div className={`slider-row${stacked ? ' slider-row--control' : ''}`}>
+      {!stacked && <span className="slider-row__label">{label}</span>}
       <input
+        id={inputId}
         type="range"
         min={min}
         max={max}
@@ -31,9 +44,21 @@ export function SliderRow({ label, min, max, step, value, onChange, onDoubleClic
         onChange={(event) => onChange(parseFloat(event.target.value))}
         onDoubleClick={onDoubleClick}
         className="slider-row__input"
+        aria-label={stacked ? undefined : label}
       />
       <span className="slider-row__value">{typeof value === 'number' ? value.toFixed(2) : value}</span>
     </div>
+  );
+
+  if (!stacked) return control;
+
+  return (
+    <>
+      <label className="field-label" htmlFor={inputId}>
+        {label}
+      </label>
+      {control}
+    </>
   );
 }
 
