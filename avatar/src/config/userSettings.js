@@ -6,6 +6,12 @@ import { defaultAvatar, defaultCamera, defaultLight } from './defaults';
 import { defaultColor, normalizeEnvironmentSelection } from './environmentSelection';
 import { defaultWindowScale, normalizeWindowScale } from './windowScale';
 import { createEmptyDeck, normalizeMotionDeck } from '../motion-deck/motionDeck';
+import {
+  defaultLipSyncMouthStrength,
+  defaultLipSyncSensitivity,
+  normalizeLipSyncMouthStrength,
+  normalizeLipSyncSensitivity,
+} from './lipSyncSensitivity';
 
 // 2: avatarTransform.rotation is the user's framing rotation only. Version 1
 // seeded it from a default that had the VRM 0.0 180° facing flip baked in, so
@@ -53,6 +59,8 @@ export function createDefaultUserSettings() {
       rotation: [...defaultAvatar.rotation],
     },
     audioSourceId: getDefaultAudioSourceId(),
+    lipSyncSensitivity: defaultLipSyncSensitivity,
+    lipSyncMouthStrength: defaultLipSyncMouthStrength,
     windowSourceId: null,
     overlayMode: true,
     windowScale: defaultWindowScale,
@@ -198,6 +206,8 @@ export function normalizeUserSettings(raw) {
       ),
     },
     audioSourceId: asString(data.audioSourceId, defaults.audioSourceId),
+    lipSyncSensitivity: normalizeLipSyncSensitivity(data.lipSyncSensitivity),
+    lipSyncMouthStrength: normalizeLipSyncMouthStrength(data.lipSyncMouthStrength),
     windowSourceId: typeof data.windowSourceId === 'string' ? data.windowSourceId : null,
     overlayMode: data.overlayMode !== false,
     windowScale: normalizeWindowScale(asNumber(data.windowScale, defaults.windowScale)),
@@ -227,6 +237,8 @@ export function snapshotUserSettings(state) {
     light: state.light,
     avatarTransform: state.avatarTransform,
     audioSourceId: state.audioSourceId,
+    lipSyncSensitivity: state.lipSyncSensitivity,
+    lipSyncMouthStrength: state.lipSyncMouthStrength,
     windowSourceId: state.windowSourceId ?? null,
     overlayMode: state.overlayMode,
     windowScale: state.windowScale,

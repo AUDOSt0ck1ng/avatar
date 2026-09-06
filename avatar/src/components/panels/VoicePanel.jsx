@@ -5,7 +5,11 @@ import {
   labelAudioCaptureStatus,
 } from '../../lib/audioCaptureCopy';
 import { getDesktopApi } from '../../lib/desktopMode';
-import { PanelSelect } from '../ui/PanelPrimitives';
+import {
+  defaultLipSyncMouthStrength,
+  defaultLipSyncSensitivity,
+} from '../../config/lipSyncSensitivity';
+import { PanelSelect, SliderRow, Divider } from '../ui/PanelPrimitives';
 
 export function VoicePanel({
   audioSourceId,
@@ -16,6 +20,10 @@ export function VoicePanel({
   audioStatus,
   audioError,
   onRestartAudio,
+  lipSyncSensitivity,
+  onLipSyncSensitivityChange,
+  lipSyncMouthStrength,
+  onLipSyncMouthStrengthChange,
 }) {
   const [windowSources, setWindowSources] = useState([]);
   const audioSourceOptions = getAudioSourceOptions();
@@ -63,8 +71,48 @@ export function VoicePanel({
         {audioSourceOptions.find((option) => option.id === audioSourceId)?.description}
       </p>
 
+      {audioSourceId !== 'none' && (
+        <>
+          <Divider />
+
+          <SliderRow
+            stacked
+            id="lip-sync-sensitivity"
+            label="Sensitivity"
+            min={0.25}
+            max={4}
+            step={0.25}
+            value={lipSyncSensitivity}
+            onChange={onLipSyncSensitivityChange}
+            onDoubleClick={() => onLipSyncSensitivityChange(defaultLipSyncSensitivity)}
+          />
+          <p className="panel-hint">
+            Raise this when audio is detected but the mouth barely moves. Double-click to reset.
+          </p>
+
+          <Divider />
+
+          <SliderRow
+            stacked
+            id="lip-sync-mouth-limit"
+            label="Mouth limit"
+            min={0.1}
+            max={1}
+            step={0.05}
+            value={lipSyncMouthStrength}
+            onChange={onLipSyncMouthStrengthChange}
+            onDoubleClick={() => onLipSyncMouthStrengthChange(defaultLipSyncMouthStrength)}
+          />
+          <p className="panel-hint">
+            Limits the maximum VRM mouth-expression weight. Double-click to reset.
+          </p>
+        </>
+      )}
+
       {audioSourceId === 'window' && (
         <>
+          <Divider />
+
           <label className="field-label" htmlFor="window-source-select">
             Window or screen
           </label>
@@ -79,14 +127,19 @@ export function VoicePanel({
       )}
 
       {audioSourceId === 'file' && (
-        <div className="file-picker-row">
-          <input
-            type="file"
-            accept="audio/*"
-            onChange={(event) => setAudioFile(event.target.files?.[0] ?? null)}
-          />
-        </div>
+        <>
+          <Divider />
+          <div className="file-picker-row">
+            <input
+              type="file"
+              accept="audio/*"
+              onChange={(event) => setAudioFile(event.target.files?.[0] ?? null)}
+            />
+          </div>
+        </>
       )}
+
+      <Divider />
 
       <div className="voice-status-row">
         <span

@@ -790,6 +790,11 @@
   margin: 8px 0;
 }
 
+/* Under a .field-label (stacked SliderRow) — same rhythm as PanelSelect. */
+.slider-row--control {
+  margin-top: 0;
+}
+
 .slider-row__label {
   min-width: 60px;
 }

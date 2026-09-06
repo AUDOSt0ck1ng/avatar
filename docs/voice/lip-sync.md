@@ -41,4 +41,6 @@ Voice drawer shows a **plain-language status** (for example **Capturing (local)*
 
 - Prefer **Device output** on desktop when watching videos or chatting with an AI that plays audio through the system.  
 - If the mouth never moves, confirm the live dot is mint/green (not amber waiting or coral error), OS mute, and that the selected window (if any) is actually producing sound.  
-- Extremely quiet sources may need higher OS volume or a closer mic.
+- If the live dot reacts but the mouth barely moves, raise **Voice → Sensitivity**. Double-click the slider to restore its `1.00` default.
+- Use **Voice → Mouth limit** to cap the maximum mouth-expression weight from `0.10` to the full VRM value of `1.00`.
+- Extremely quiet sources may still need higher OS volume or a closer mic.

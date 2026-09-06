@@ -6,10 +6,10 @@ import { useAudioAnalyser } from './useAudioAnalyser';
 /**
  * @param {'none' | 'microphone' | 'tab' | 'file' | 'system' | 'window'} sourceId
  * @param {File | null} [audioFile]
- * @param {{ windowSourceId?: string | null }} [options]
+ * @param {{ windowSourceId?: string | null, sensitivity?: number }} [options]
  */
 export function useAudioSource(sourceId, audioFile = null, options = {}) {
-  const { windowSourceId = null } = options;
+  const { windowSourceId = null, sensitivity = 1 } = options;
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState(null);
   const audioContextRef = useRef(null);
@@ -18,7 +18,7 @@ export function useAudioSource(sourceId, audioFile = null, options = {}) {
   const audioElementRef = useRef(null);
   const enabled = sourceId !== 'none';
 
-  const { attach, detach, level, levelRef, speaking } = useAudioAnalyser(enabled);
+  const { attach, detach, level, levelRef, speaking } = useAudioAnalyser(enabled, sensitivity);
 
   const cleanup = useCallback(async () => {
     detach();

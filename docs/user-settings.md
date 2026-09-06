@@ -23,7 +23,7 @@ Autosave runs shortly after you change something (~400 ms debounce).
 | Camera | `position`, `lookAt`, `fov` |
 | Light | `intensity`, `color`, `position` |
 | Avatar transform | `position`, `rotation` |
-| Voice | `audioSourceId`, `windowSourceId` (when picking a window) |
+| Voice | `audioSourceId`, `lipSyncSensitivity`, `lipSyncMouthStrength`, `windowSourceId` (when picking a window) |
 | Desktop | `overlayMode`, `windowScale` |
 | Directories (desktop) | `directories.avatars` / `animations` / `environments` (`mode` + `path`) |
 | Agents (desktop) | `agentBus.enabled` / `port` / `requireToken` (the token itself is stored encrypted, not here) |

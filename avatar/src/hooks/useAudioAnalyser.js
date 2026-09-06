@@ -35,8 +35,9 @@ function measureLevel(analyser, buffer) {
  * Reads amplitude from an active Web Audio graph.
  *
  * @param {boolean} enabled
+ * @param {number} sensitivity
  */
-export function useAudioAnalyser(enabled) {
+export function useAudioAnalyser(enabled, sensitivity = 1) {
   const [level, setLevel] = useState(0);
   const [speaking, setSpeaking] = useState(false);
   const rafRef = useRef(null);
@@ -72,7 +73,7 @@ export function useAudioAnalyser(enabled) {
       const analyser = analyserRef.current;
       const buffer = bufferRef.current;
       if (analyser && buffer) {
-        const nextLevel = measureLevel(analyser, buffer);
+        const nextLevel = Math.min(1, measureLevel(analyser, buffer) * sensitivity);
         levelRef.current = nextLevel;
         setLevel(nextLevel);
         const now = performance.now();
@@ -90,7 +91,7 @@ export function useAudioAnalyser(enabled) {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [detach, enabled]);
+  }, [detach, enabled, sensitivity]);
 
   return { attach, detach, level, levelRef, speaking };
 }
